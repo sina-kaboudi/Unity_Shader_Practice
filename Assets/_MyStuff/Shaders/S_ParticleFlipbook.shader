@@ -10,8 +10,8 @@ Shader "Custom/S_ParticleFlipbook"
 	{
 		Tags
 		{
-			"RenderType" = "Opaque"
-			"Queue" = "Geometry"
+			"RenderType" = "Transparent"
+			"Queue" = "Transparent"
 			"RenderPipeline" = "UniversalRenderer"
 		}
 
@@ -21,6 +21,10 @@ Shader "Custom/S_ParticleFlipbook"
 			{
 				"LightMode" = "UniversalForward"
 			}
+			
+
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
 
 			HLSLPROGRAM
 			#pragma vertex vert
