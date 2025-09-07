@@ -1,4 +1,4 @@
-Shader "Custom/SimpleTexture"
+Shader "Custom/S_SimpleTexture"
 {
     Properties
     {
@@ -21,7 +21,7 @@ Shader "Custom/SimpleTexture"
             Name "ForwardUnlit"
             Tags
             {
-                "LightMode" = "UniversalForward"
+                "LightMode" = "UniversalForwardOnly"
             }
 
             HLSLPROGRAM
@@ -67,36 +67,10 @@ Shader "Custom/SimpleTexture"
         Pass
         {
             Name "DepthOnly"
-            Tags { "LightMode"="DepthOnly" }
+            Tags { "LightMode"="DepthNormals" }
 
             ZWrite On
             ColorMask 0
-
-            HLSLPROGRAM
-            #pragma vertex DepthOnlyVertex
-            #pragma fragment DepthOnlyFragment
-
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-            };
-
-            struct Varyings
-            {
-                float4 positionHCS : SV_POSITION;
-            };
-
-            Varyings DepthOnlyVertex(Attributes input)
-            {
-                Varyings o;
-                o.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
-                return o;
-            }
-
-            void DepthOnlyFragment(Varyings input) { }
-            ENDHLSL
         }
     }
 }

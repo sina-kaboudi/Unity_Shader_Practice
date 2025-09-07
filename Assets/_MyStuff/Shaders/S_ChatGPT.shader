@@ -1,79 +1,52 @@
 Shader "Custom/S_ChatGPT"
 {
-    Properties
-    {
-        _BaseColor("Base Color", Color) = (1,0,0,1)
-    }
-
     SubShader
     {
-        Tags
-        {
-            "RenderPipeline"="UniversalPipeline"
-            "RenderType"="Opaque"
-            "Queue"="Geometry"
-        }
+        Tags { "RenderPipeline"="UniversalPipeline" }
 
-        // ===== Main color pass =====
+        // Forward color pass
         Pass
         {
-            Name "ForwardUnlit"
+            Name "ForwardColor"
             Tags { "LightMode"="UniversalForward" }
 
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct Attributes { float4 positionOS : POSITION; };
-            struct Varyings   { float4 positionHCS : SV_POSITION; };
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+            };
 
-            CBUFFER_START(UnityPerMaterial)
-                float4 _BaseColor;
-            CBUFFER_END
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+            };
 
-            Varyings vert (Attributes v)
+            Varyings vert(Attributes IN)
             {
                 Varyings o;
-                o.positionHCS = TransformObjectToHClip(v.positionOS.xyz);
+                o.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 return o;
             }
 
-            half4 frag (Varyings i) : SV_Target
+            half4 frag(Varyings IN) : SV_Target
             {
-                return _BaseColor;
+                return half4(1, 0, 0, 1); // solid red
             }
             ENDHLSL
         }
 
-        // ===== DepthOnly pass =====
+        // DepthNormals pass
         Pass
         {
-            Name "DepthOnly"
-            Tags { "LightMode"="DepthOnly" }
+            Name "DepthNormals"
+            Tags { "LightMode"="DepthNormals" }
 
             ZWrite On
-            ColorMask 0   // don’t write color, just depth
-
-            HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
-            struct Attributes { float4 positionOS : POSITION; };
-            struct Varyings   { float4 positionHCS : SV_POSITION; };
-
-            Varyings vert (Attributes v)
-            {
-                Varyings o;
-                o.positionHCS = TransformObjectToHClip(v.positionOS.xyz);
-                return o;
-            }
-
-            void frag (Varyings i) { } // no color, depth only
-            ENDHLSL
+            ColorMask RG // URP writes normals into RG channels
         }
     }
 }
