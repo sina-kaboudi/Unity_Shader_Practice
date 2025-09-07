@@ -10,8 +10,8 @@ Shader "Custom/S_Silhouette"
 	{
 		Tags
 		{
-			"RenderType" = "Transparent"
-			"Queue" = "Transparent"
+			"RenderType" = "Geometry"
+			"Queue" = "Geometry+1"
 			"RenderPipeline" = "UniversalPipeline"
 		}
 
@@ -22,8 +22,8 @@ Shader "Custom/S_Silhouette"
 				"LightMode" = "UniversalForward"
 			}
 
-			ZWrite off
-			Blend SrcAlpha OneMinusSrcAlpha
+			ZWrite on
+			Blend One Zero
 
 			HLSLPROGRAM
 			#pragma vertex vert
@@ -31,6 +31,7 @@ Shader "Custom/S_Silhouette"
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+
 			struct attributes
 			{
 				float4 positionOS : POSITION;

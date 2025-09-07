@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_SimpleTexture
-  m_Shader: {fileID: 4800000, guid: 8add62d6f8f67f449805076eb202786f, type: 3}
+  m_Name: Custom_S_ChatGPT
+  m_Shader: {fileID: 4800000, guid: 2de84438c5e830446ba82bd339aadefb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,14 +22,10 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _MainColor: {r: 0.95686275, g: 0.8318861, b: 0.35686272, a: 1}
+    - _BaseColor: {r: 0.05360849, g: 0.91194963, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
