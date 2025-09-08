@@ -4,7 +4,7 @@ Shader "Cutsom/S_SceneIntersection"
 	{
 		_BaseColor("Base Color", Color) = (0,0,0,1)
 		_IntersectionColor("Intersection Color", Color) = (1,1,1,1)
-		_Strength("Strength", Float) = 1
+		_Strength("Strength", Range(0.1, 100)) = 1
 	}
 
 	Subshader
@@ -12,7 +12,7 @@ Shader "Cutsom/S_SceneIntersection"
 		Tags
 		{
 			"RenderPipeline" = "UniversalPipeline"
-			"RenderType" = "Transparent"
+			"RenderType" = "Geometry"
 			"Queue" = "Transparent"
 		}
 
@@ -58,10 +58,28 @@ Shader "Cutsom/S_SceneIntersection"
 
 			float4 frag(varryings i) : SV_TARGET
 			{
-				return _BaseColor;
-			}
+				float2 screenUV = i.positionSS.xy / i.positionSS.w;
+				float rawDepth = SampleSceneDepth(screenUV);
+				float eyeDepth = LinearEyeDepth(rawDepth, _ZBufferParams);
+				float screenPosW = i.positionSS.w;
 
+				float intersectAmount = eyeDepth - screenPosW;
+				intersectAmount = saturate(1.0 - intersectAmount);
+				intersectAmount = pow(intersectAmount, _Strength);
+
+				float4 finalColor = lerp(_BaseColor, _IntersectionColor, intersectAmount);
+				return finalColor;
+			}
 			ENDHLSL
 		}
+
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode"="DepthNormals" }
+
+            ZWrite On
+            ColorMask RG // URP writes normals into RG channels
+        }
 	}
 }
