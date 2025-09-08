@@ -21,7 +21,7 @@ Shader "Custom/S_SimpleTexture"
             Name "ForwardUnlit"
             Tags
             {
-                "LightMode" = "UniversalForwardOnly"
+                "LightMode" = "UniversalForward"
             }
 
             HLSLPROGRAM
@@ -66,11 +66,11 @@ Shader "Custom/S_SimpleTexture"
 
         Pass
         {
-            Name "DepthOnly"
+            Name "DepthNormals"
             Tags { "LightMode"="DepthNormals" }
 
             ZWrite On
-            ColorMask 0
+            ColorMask RG // URP writes normals into RG channels
         }
     }
 }
