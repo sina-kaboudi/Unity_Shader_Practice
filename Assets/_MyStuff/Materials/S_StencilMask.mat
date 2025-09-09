@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: S_SceneIntersection
-  m_Shader: {fileID: 4800000, guid: 3d8924e1897515d4b98260caf0bbe73a, type: 3}
+  m_Name: S_StencilMask
+  m_Shader: {fileID: 4800000, guid: 7ce87e638bc246f4589f63890217e313, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,10 +25,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Strength: 18.9
-    - _Thickness: 0.01
-    m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
-    - _IntersectionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StencilRef: 1
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
