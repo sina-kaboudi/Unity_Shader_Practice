@@ -3,7 +3,9 @@ Shader "Custom/S_Xray"
     Properties
     {
         _BaseColor("Base Color", Color) = (0,0,1,1)
+        _BaseTex("Base Texture", 2D) = "white" {}
         _XrayColor("Xray Color", Color) = (1,0,0,1)
+        _XrayTex("Xray Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -43,9 +45,12 @@ Shader "Custom/S_Xray"
                   float2 uv : TEXCOORD0;
             };
 
-            float4 _BaseColor;
             sampler2D _BaseTex;
-            float4 _BaseTex_ST;
+
+            CBUFFER_START(UnityPerMaterial)
+                float4 _BaseColor;
+                float4 _BaseTex_ST;
+            CBUFFER_END
 
             v2f vert (appdata v)
             {
@@ -75,27 +80,37 @@ Shader "Custom/S_Xray"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct appdata2
+            struct appdata
             {
                 float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
+
             };
-            struct v2f2
+            struct v2f
             {
                 float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
             };
 
-            float4 _XrayColor;
+            sampler2D _XrayTex;
 
-            v2f2 vert (appdata2 v)
+            CBUFFER_START(UnityPerMaterial)
+                float4 _XrayColor;
+                float4 _XrayTex_ST;
+            CBUFFER_END
+
+            v2f vert (appdata v)
             {
-                v2f2 o;
+                v2f o;
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
+                o.uv = TRANSFORM_TEX(v.uv, _XrayTex);
                 return o;
             }
 
-            float4 frag (v2f2 i) : SV_TARGET
+            float4 frag (v2f i) : SV_TARGET
             {
-                return _XrayColor;
+                float4 textureSample = tex2D(_XrayTex, i.uv);
+                return _XrayColor * textureSample;
             }
             ENDHLSL
         }

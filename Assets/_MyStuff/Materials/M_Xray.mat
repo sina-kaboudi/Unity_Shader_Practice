@@ -22,11 +22,19 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _BaseTex:
+        m_Texture: {fileID: 2800000, guid: e759a7768967b184cae69dc01397fc36, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _XrayTex:
+        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats: []
     m_Colors:
     - _BaseColor: {r: 0, g: 0.9726119, b: 1, a: 1}
-    - _XrayColor: {r: 0.08923693, g: 0.18881105, b: 0.20125782, a: 1}
+    - _XrayColor: {r: 0.18891656, g: 0.23912555, b: 0.3018868, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
