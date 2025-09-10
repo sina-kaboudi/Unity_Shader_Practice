@@ -26,6 +26,7 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 1, a: 1}
+    - _BaseColor: {r: 0, g: 0.9726119, b: 1, a: 1}
+    - _XrayColor: {r: 0.08923693, g: 0.18881105, b: 0.20125782, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
