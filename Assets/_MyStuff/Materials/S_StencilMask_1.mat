@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: S_StencilMask
+  m_Name: S_StencilMask_1
   m_Shader: {fileID: 4800000, guid: 7ce87e638bc246f4589f63890217e313, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
