@@ -1,9 +1,10 @@
-Shader "Custom/S_TransparentTexture"
+Shader "Custom/S_AlphaCutout"
 {
 	Properties
 	{
 		_BaseColor("Base Color", Color) = (1,1,1,1)
 		_BaseTexture("Base Texture", 2D) = "white" {}
+		_ClipThreshold("Apha Clip Threshold", Range(0, 1)) = 0.5
 	}
 
 	SubShader
@@ -11,26 +12,23 @@ Shader "Custom/S_TransparentTexture"
 		Tags
 		{
 			"RenderPipeline" = "UniversalPipeline"
-			"RenderType" = "Transparent"
-			"Queue" = "Transparent"
+			"RenderType" = "Opaque"
+			"Queue" = "AlphaTest"
 		}
 
 		Pass
 		{
-			Name "ForwardLit"
-			
-			ZWrite off
-			ZTest LEqual
-			Blend One One
-
 			Tags
 			{
 				"LightMode" = "UniversalForward"
 			}
 
+			ZWrite on
+			ZTest LEqual
+
 			HLSLPROGRAM
-			#pragma vertex vert;
-			#pragma fragment frag;
+			#pragma vertex vert
+			#pragma fragment frag
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
@@ -51,6 +49,7 @@ Shader "Custom/S_TransparentTexture"
 
 			CBUFFER_START(UnityPerMaterial)
 				float4 _BaseColor;
+				float _ClipThreshold;
 			CBUFFER_END
 
 			varryings vert(attributes i)
@@ -63,8 +62,11 @@ Shader "Custom/S_TransparentTexture"
 
 			float4 frag(varryings i) : SV_TARGET
 			{
-				float4 sampleColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv);
-				return sampleColor * _BaseColor;
+				float4 samplerColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv);
+				float4 finalColor = samplerColor * _BaseColor;
+
+				if (finalColor.a < _ClipThreshold) discard;
+				return finalColor;
 			}
 
 			ENDHLSL
