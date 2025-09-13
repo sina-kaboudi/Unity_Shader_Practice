@@ -1,10 +1,9 @@
-Shader "Custom/S_AlphaCutout"
+Shader "Custom/S_DitheredTransparency"
 {
 	Properties
 	{
 		_BaseColor("Base Color", Color) = (1,1,1,1)
 		_BaseTexture("Base Texture", 2D) = "white" {}
-		_ClipThreshold("Apha Clip Threshold", Range(0, 1)) = 0.5
 	}
 
 	SubShader
@@ -18,6 +17,7 @@ Shader "Custom/S_AlphaCutout"
 
 		Pass
 		{
+			Name "ForwardUnlit"
 			Tags
 			{
 				"LightMode" = "UniversalForward"
@@ -42,22 +42,23 @@ Shader "Custom/S_AlphaCutout"
 			{
 				float4 positionCS : SV_POSITION;
 				float2 uv : TEXCOORD0;
+				float4 positionSS : TEXCOORD1;
 			};
 
 			TEXTURE2D(_BaseTexture);
 			SAMPLER(sampler_BaseTexture);
 
-			CBUFFER_START(UnityPerMaterial)
+            CBUFFER_START(UnityPerMaterial)
 				float4 _BaseColor;
-				float _ClipThreshold;
 				float4 _BaseTexture_ST;
-			CBUFFER_END
+            CBUFFER_END
 
 			varryings vert(attributes i)
 			{
 				varryings o;
 				o.positionCS = TransformObjectToHClip(i.positionOS.xyz);
 				o.uv = TRANSFORM_TEX(i.uv, _BaseTexture);
+				o.positionSS = ComputeScreenPos(o.positionCS);
 				return o;
 			}
 
@@ -66,10 +67,21 @@ Shader "Custom/S_AlphaCutout"
 				float4 samplerColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv);
 				float4 finalColor = samplerColor * _BaseColor;
 
-				if (finalColor.a < _ClipThreshold) discard;
+				float2 screenUVs = i.positionSS.xy / i.positionSS.w * _ScreenParams.xy;
+				float ditherThresholds[16] =
+				{
+					  16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0,
+					  4.0 / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
+					  13.0 / 17.0,  5.0 / 17.0, 15.0 / 17.0,  7.0 / 17.0,
+					  1.0 / 17.0,  9.0 / 17.0,  3.0 / 17.0, 11.0 / 17.0
+				};
+
+				uint index = (uint(screenUVs.x)%4)*4 + uint(screenUVs.y)%4;
+				float threshold = ditherThresholds[index];
+
+				if (finalColor.a < threshold) discard;
 				return finalColor;
 			}
-
 			ENDHLSL
 		}
 	}
