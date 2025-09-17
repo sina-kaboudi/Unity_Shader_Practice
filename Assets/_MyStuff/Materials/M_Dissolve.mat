@@ -29,7 +29,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Threshold: 0.915
+    - _NoiseScale: 12.81
+    - _NoiseStrength: 0.3
+    - _Threshold: 0.09
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
