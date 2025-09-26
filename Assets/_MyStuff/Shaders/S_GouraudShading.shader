@@ -68,12 +68,16 @@ Shader "Custom/S_GouraudShading"
 				float3 positionWS = TransformObjectToWorld(i.positionOS);
 				float3 viewWS = GetWorldSpaceNormalizeViewDir(positionWS);
 
-
-				float3 ambient = SampleSHVertex(normalWS);
 				Light mainLight = GetMainLight();
+				float3 ambient = SampleSHVertex(normalWS);
 				float3 diffuse = mainLight.color * max(0, dot(normalWS, mainLight.direction));
+				float3 halfVector = normalize(mainLight.direction + viewWS);
+				float3 specular = max(0, dot(normalWS, halfVector));
+				specular = pow(specular, _GlossPower);
+				float3 specularColor = mainLight.color * specular;
 
 				o.diffuseLighting = float4(ambient + diffuse, 1.0);
+				o.specularLighting = float4(specularColor, 1.0);
 
 				return o;
 			}
