@@ -84,7 +84,7 @@ Shader "Custom/S_PhongShading"
 				float3 diffuse = mainLight.color * max(0, dot(normal, mainLight.direction));
 
 				float3 halfVector = normalize(view + mainLight.direction);
-				float3 specular = max(0, dot(normal, halfVector));
+				float specular = max(0, dot(normal, halfVector));
 				specular = pow(specular, _GlossPower);
 				float3 specularColor = mainLight.color * specular;
 
