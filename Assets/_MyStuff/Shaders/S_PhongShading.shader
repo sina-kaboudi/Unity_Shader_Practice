@@ -89,7 +89,7 @@ Shader "Custom/S_PhongShading"
 				float3 specularColor = mainLight.color * specular;
 
 				float4 diffuseLighting = float4(ambient + diffuse, 1.0);
-				float4 specularLighting = float4(specular, 1.0);
+				float4 specularLighting = float4(specularColor, 1.0);
 
 				float4 sampleColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv);
 				return sampleColor * _BaseColor * diffuseLighting + specularLighting;
