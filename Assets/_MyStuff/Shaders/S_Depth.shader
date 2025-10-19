@@ -1,4 +1,4 @@
-Shader "Custom/S_ChatGPT"
+Shader "Custom/S_Depth"
 {
     SubShader
     {
