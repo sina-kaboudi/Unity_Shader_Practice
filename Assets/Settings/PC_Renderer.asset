@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8571533243751512513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9084db131f861b44aabc17813b1e77ed, type: 3}
+  m_Name: DitherEffectRenderFeature
+  m_EditorClassIdentifier: Assembly-CSharp::DitherEffectRenderFeature
+  m_Active: 1
+  injectionPoint: 600
+  Material: {fileID: 2100000, guid: 873cbaf9bca2ec44db25537296cfe17c, type: 2}
+--- !u!114 &-3213398205609848481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3964c092844fd7e4f9b0696658378a7a, type: 3}
+  m_Name: Grayscale
+  m_EditorClassIdentifier: Assembly-CSharp::GrayscaleFeature
+  m_Active: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,7 +56,8 @@ MonoBehaviour:
   - {fileID: 7833122117494664109}
   - {fileID: 5204566567832147658}
   - {fileID: 6392676877795292612}
-  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b758
+  - {fileID: -8571533243751512513}
+  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b7583f46bdc1edcb0b89
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -69,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Impossible Objects 1
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.RenderObjects
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Impossible Objects 1
     Event: 300
@@ -111,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Impossible Objects 2
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.RenderObjects
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Impossible Objects 2
     Event: 300
@@ -153,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: ScreenSpaceAmbientOcclusion
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   m_Settings:
     AOMethod: 0
     Downsample: 0
