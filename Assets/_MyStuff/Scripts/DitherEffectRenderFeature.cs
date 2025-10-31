@@ -7,15 +7,14 @@ using UnityEngine.Rendering.RenderGraphModule.Util;
 
 public class DitherEffectRenderFeature : ScriptableRendererFeature
 {
-    public RenderPassEvent InjectionPoint = RenderPassEvent.AfterRenderingPostProcessing;
     public Material Material;
 
-    private DitherEffectPass m_scriptablePass;
+    DitherEffectRenderFeaturePass m_ScriptablePass;
 
     public override void Create()
     {
-        m_scriptablePass = new DitherEffectPass();
-        m_scriptablePass.renderPassEvent = InjectionPoint;
+        m_ScriptablePass = new DitherEffectRenderFeaturePass();
+        m_ScriptablePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -26,11 +25,11 @@ public class DitherEffectRenderFeature : ScriptableRendererFeature
             return;
         }
 
-        m_scriptablePass.Setup(Material);
-        renderer.EnqueuePass(m_scriptablePass);
+        m_ScriptablePass.Setup(Material);
+        renderer.EnqueuePass(m_ScriptablePass);
     }
 
-    class DitherEffectPass : ScriptableRenderPass
+    class DitherEffectRenderFeaturePass : ScriptableRenderPass
     {
         private const string m_passName = "DitherEffectPass";
         private Material m_blitMaterial;
@@ -51,13 +50,12 @@ public class DitherEffectRenderFeature : ScriptableRendererFeature
             var resourceData = frameData.Get<UniversalResourceData>();
             if (resourceData.isActiveTargetBackBuffer)
             {
-                Debug.LogError($"Skipping pass dither pass. This effect requires an intermediate texture");
+                Debug.LogError($"Skipping pass {m_passName}. This effect requires an intermediate texture");
                 return;
             }
 
-            var source = resourceData.activeColorTexture;
-
-            var destinationDesc = renderGraph.GetTextureDesc(source);
+            TextureHandle source = resourceData.activeColorTexture;
+            TextureDesc destinationDesc = source.GetDescriptor(renderGraph);
             destinationDesc.name = $"CameraColor-{m_passName}";
             destinationDesc.clearBuffer = false;
 

@@ -13,8 +13,24 @@ MonoBehaviour:
   m_Name: DitherEffectRenderFeature
   m_EditorClassIdentifier: Assembly-CSharp::DitherEffectRenderFeature
   m_Active: 1
-  injectionPoint: 600
   Material: {fileID: 2100000, guid: 873cbaf9bca2ec44db25537296cfe17c, type: 2}
+--- !u!114 &-4999973369944820616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dcd02f3a396004fa8d6420686683e2, type: 3}
+  m_Name: BlurRendererFeature
+  m_EditorClassIdentifier: Assembly-CSharp::BlurRendererFeature
+  m_Active: 1
+  settings:
+    horizontalBlur: 0
+    verticalBlur: 0
+  shader: {fileID: 4800000, guid: c90ac985ea5ba7e4fae95c1d2ff00188, type: 3}
 --- !u!114 &-3213398205609848481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +73,8 @@ MonoBehaviour:
   - {fileID: 5204566567832147658}
   - {fileID: 6392676877795292612}
   - {fileID: -8571533243751512513}
-  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b7583f46bdc1edcb0b89
+  - {fileID: -4999973369944820616}
+  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b7583f46bdc1edcb0b8978b40606b6869cba
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
