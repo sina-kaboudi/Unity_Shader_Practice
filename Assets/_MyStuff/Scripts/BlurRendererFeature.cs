@@ -83,8 +83,6 @@ public class BlurRendererFeature : ScriptableRendererFeature
             blurTextureDescriptor.depthBufferBits = 0;
             TextureHandle dst = renderGraph.CreateTexture(blurTextureDescriptor);
 
-            UniversalCameraData cameraData = frameData.Get<UniversalCameraData>();
-
             if (resourceData.isActiveTargetBackBuffer)
                 return;
 
