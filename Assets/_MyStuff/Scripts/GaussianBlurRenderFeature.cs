@@ -5,32 +5,31 @@ using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.RenderGraphModule.Util;
 using UnityEngine.Rendering.Universal;
 
-public class BlurRendererFeature : ScriptableRendererFeature
+
+public class GaussianBlurRenderFeature : ScriptableRendererFeature
 {
-    [SerializeField] BlurSettings settings;
+    [SerializeField] GaussianBlurSettings settings;
     [SerializeField] private Shader shader;
+
     private Material material;
-    private BlurRenderPass blurRenderPass;
+    private GaussianBlurRenderFeaturePass renderPass;
 
     public override void Create()
     {
         if (shader == null) return;
 
         material = new Material(shader);
-        blurRenderPass = new BlurRenderPass(settings, material);
-
-        blurRenderPass.renderPassEvent = RenderPassEvent.AfterRenderingSkybox;
+        renderPass = new GaussianBlurRenderFeaturePass(settings, material);
+        renderPass.renderPassEvent = RenderPassEvent.AfterRenderingSkybox;
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        if (blurRenderPass == null)
-        {
-            return;
-        }
+        if (renderPass == null) return;
+
         if (renderingData.cameraData.cameraType == CameraType.Game)
         {
-            renderer.EnqueuePass(blurRenderPass);
+            renderer.EnqueuePass(renderPass);
         }
     }
 
@@ -47,25 +46,26 @@ public class BlurRendererFeature : ScriptableRendererFeature
     }
 
     [Serializable]
-    public class BlurSettings
+    public class GaussianBlurSettings
     {
-        [Range(0, 0.4f)] public float horizontalBlur;
-        [Range(0, 0.4f)] public float verticalBlur;
+        [Range(0f, 1f)] public float horizontalBlur = 0.001f;
+        [Range(0f, 1f)] public float verticalBlur = 0.001f;
     }
 
-    class BlurRenderPass : ScriptableRenderPass
+    class GaussianBlurRenderFeaturePass : ScriptableRenderPass
     {
-        private BlurSettings defaultSettings;
+        private GaussianBlurSettings defaultSettings;
         private Material material;
         private TextureDesc blurTextureDescriptor;
 
-        private static readonly int horizontalBlurId = Shader.PropertyToID("_HorizontalBlur");
         private static readonly int verticalBlurId = Shader.PropertyToID("_VerticalBlur");
-        private const string k_BlurTextureName = "_BlurTexture";
-        private const string k_VerticalPassName = "VerticalBlurRenderPass";
-        private const string k_HorizontalPassName = "HorizontalBlurRenderPass";
+        private static readonly int horizontalBlurId = Shader.PropertyToID("_HorizontalBlur");
 
-        public BlurRenderPass(BlurSettings settings, Material material)
+        private const string k_BlurTextureName = "_GaussianBlurTexture";
+        private const string k_VerticalPassName = "GaussianVertical";
+        private const string k_HorizontalPassName = "GaussianHorizontal";
+
+        public GaussianBlurRenderFeaturePass(GaussianBlurSettings settings, Material material)
         {
             this.defaultSettings = settings;
             this.material = material;
@@ -105,7 +105,7 @@ public class BlurRendererFeature : ScriptableRendererFeature
             if (material == null) return;
 
             // Use the Volume settings or the default settings if no Volume is set.
-            var volumeComponent = VolumeManager.instance.stack.GetComponent<BlurVolumeComponent>();
+            var volumeComponent = VolumeManager.instance.stack.GetComponent<GaussianBlurVolumeComponent>();
             float horizontalBlur = volumeComponent.horizontalBlur.overrideState ?
                 volumeComponent.horizontalBlur.value : defaultSettings.horizontalBlur;
             float verticalBlur = volumeComponent.verticalBlur.overrideState ?

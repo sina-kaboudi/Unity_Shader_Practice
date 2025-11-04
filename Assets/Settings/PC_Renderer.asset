@@ -12,8 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9084db131f861b44aabc17813b1e77ed, type: 3}
   m_Name: DitherEffectRenderFeature
   m_EditorClassIdentifier: Assembly-CSharp::DitherEffectRenderFeature
-  m_Active: 1
+  m_Active: 0
   Material: {fileID: 2100000, guid: 873cbaf9bca2ec44db25537296cfe17c, type: 2}
+--- !u!114 &-8239888862604340952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a816f807cef495846937e1951c2e666b, type: 3}
+  m_Name: GaussianBlurRenderFeature
+  m_EditorClassIdentifier: Assembly-CSharp::GaussianBlurRenderFeature
+  m_Active: 0
+  settings:
+    horizontalBlur: 0.02
+    verticalBlur: 0.02
+  shader: {fileID: 4800000, guid: 32d21d1aba3f060478c0610284c59e84, type: 3}
 --- !u!114 &-4999973369944820616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlurRendererFeature
   m_Active: 1
   settings:
-    horizontalBlur: 0
-    verticalBlur: 0
+    horizontalBlur: 0.02
+    verticalBlur: 0.02
   shader: {fileID: 4800000, guid: c90ac985ea5ba7e4fae95c1d2ff00188, type: 3}
 --- !u!114 &-3213398205609848481
 MonoBehaviour:
@@ -74,7 +91,8 @@ MonoBehaviour:
   - {fileID: 6392676877795292612}
   - {fileID: -8571533243751512513}
   - {fileID: -4999973369944820616}
-  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b7583f46bdc1edcb0b8978b40606b6869cba
+  - {fileID: -8239888862604340952}
+  m_RendererFeatureMap: ad6b866f10d7b46cca5682edb7553a48c475d720c059b7583f46bdc1edcb0b8978b40606b6869cba2851c57bbc08a68d
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}

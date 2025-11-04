@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   horizontalBlur:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.02
   verticalBlur:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.02
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
