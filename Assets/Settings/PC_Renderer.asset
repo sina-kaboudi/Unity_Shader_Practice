@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66dcd02f3a396004fa8d6420686683e2, type: 3}
   m_Name: BlurRendererFeature
   m_EditorClassIdentifier: Assembly-CSharp::BlurRendererFeature
-  m_Active: 1
+  m_Active: 0
   settings:
     horizontalBlur: 0.02
     verticalBlur: 0.02
