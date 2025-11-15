@@ -24,17 +24,17 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseTex:
-        m_Texture: {fileID: 2800000, guid: e759a7768967b184cae69dc01397fc36, type: 3}
+        m_Texture: {fileID: 2800000, guid: e1d86a98de81ec04ba175628a4978a7c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DstBlend: 0
+    - _DstBlend: 2
     - _SrcBlend: 1
     - _TessAmount: 64
     - _WaveSpeed: 1
     - _WaveStrength: 0.5
     m_Colors:
-    - _BaseCol: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseCol: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
