@@ -70,34 +70,37 @@ Shader "Custom/S_Waves"
 			{
 				float4 positionOS : POSITION;
 				float2 uv : TEXCOORD0;
+				float2 uv2 : TEXCOORD1;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float2 staticLightmapUV : TEXCOORD1;
-				float2 dynamicLightmapUV : TEXCOORD2;
+				float2 staticLightmapUV : TEXCOORD2;
+				float2 dynamicLightmapUV : TEXCOORD3;
 			};
 
 			struct tessControlPoint
 			{
 				float4 positionOS : INTERNALTESSPOS;
 				float2 uv : TEXCOORD0;
+				float2 uv2 : TEXCOORD1;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float2 staticLightmapUV : TEXCOORD1;
-				float2 dynamicLightmapUV : TEXCOORD2;
+				float2 staticLightmapUV : TEXCOORD2;
+				float2 dynamicLightmapUV : TEXCOORD3;
 			};
 
 			struct Varyings
 			{
 				float4 positionCS : SV_POSITION;
 				float2 uv : TEXCOORD0;
-				float3 positionWS : TEXCOORD1;
-				float3 normalWS : TEXCOORD2;
-				float4 tangentWS : TEXCOORD3;
-				float3 viewDirWS : TEXCOORD4;
-				float4 shadowCoord : TEXCOORD5;
-				DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 6);
+				float2 uv2 : TEXCOORD1;
+				float3 positionWS : TEXCOORD2;
+				float3 normalWS : TEXCOORD3;
+				float4 tangentWS : TEXCOORD4;
+				float3 viewDirWS : TEXCOORD5;
+				float4 shadowCoord : TEXCOORD6;
+				DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 7);
 				#ifdef DYNAMICLIGHTMAP_ON
-						float2  dynamicLightmapUV : TEXCOORD7;
+						float2  dynamicLightmapUV : TEXCOORD8;
 				#endif
 			};
 
@@ -143,9 +146,15 @@ Shader "Custom/S_Waves"
 				surfaceData.smoothness = _Smoothness;
 
 				//Normal output
-				float3 normalSample = UnpackNormal(SAMPLE_TEXTURE2D(_NormalTex, sampler_BaseTex, i.uv));
-				normalSample.rb *= _NormalStrength;
-				surfaceData.normalTS = normalSample;
+				float3 normalSample1 = UnpackNormal(SAMPLE_TEXTURE2D(_NormalTex, sampler_BaseTex, i.uv));
+				normalSample1.rb *= _NormalStrength;
+
+				float3 normalSample2 = UnpackNormal(SAMPLE_TEXTURE2D(_NormalTex, sampler_BaseTex, i.uv2));
+				normalSample2.rb *= _NormalStrength;
+
+				float3 finalNormalSample = normalize(normalSample1 + normalSample2);
+
+				surfaceData.normalTS = finalNormalSample;
 
 				//Emission output
 				#if USE_EMISSION_ON
@@ -204,6 +213,7 @@ Shader "Custom/S_Waves"
 				tessControlPoint o;
 				o.positionOS = i.positionOS;
 				o.uv = i.uv;
+				o.uv2 = i.uv2;
 				o.normalOS = i.normalOS;
 				o.tangentOS = i.tangentOS;
 				o.staticLightmapUV = i.staticLightmapUV;
@@ -222,6 +232,7 @@ Shader "Custom/S_Waves"
 				o.positionCS = vertexInput.positionCS;
 
 				o.uv = TRANSFORM_TEX(i.uv, _BaseTex);
+				o.uv2 = TRANSFORM_TEX(i.uv2, _BaseTex);
 
 				o.normalWS = normalInput.normalWS;
 
@@ -242,7 +253,10 @@ Shader "Custom/S_Waves"
 				float height = sin(_Time.y * _WaveSpeed + o.positionWS.x + o.positionWS.z);
 
 				o.positionWS.y += height * _WaveStrength;
-				o.uv = float2(o.uv.x + _Time.x, o.uv.y) * 2.0f; 
+				float t1 = _Time.x * 0.5f;
+				float t2 = _Time.x * 0.2f;
+				o.uv = float2(o.uv.x + _Time.x, o.uv.y + _Time.x) * 3.0f;
+				o.uv2 = float2(o.uv.x, o.uv.y + _Time.x * 3.0f) * 2.0f;
 
 				o.positionCS = TransformWorldToHClip(o.positionWS);
 				return o;
@@ -277,6 +291,10 @@ Shader "Custom/S_Waves"
 				i.uv = patch[0].uv * bcCoords.x +
 					patch[1].uv * bcCoords.y +
 					patch[2].uv * bcCoords.z;
+
+				i.uv2 = patch[0].uv2 * bcCoords.x +
+					patch[1].uv2 * bcCoords.y +
+					patch[2].uv2 * bcCoords.z;
 
 				i.normalOS = patch[0].normalOS * bcCoords.x +
 					patch[1].normalOS * bcCoords.y +
