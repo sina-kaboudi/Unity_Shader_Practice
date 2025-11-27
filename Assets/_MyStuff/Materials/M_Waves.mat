@@ -47,10 +47,10 @@ Material:
     - _NormalStrength: 0.5
     - _Smoothness: 0.5
     - _SrcBlend: 1
-    - _TessAmount: 64
+    - _TessAmount: 12
     - _WaveSpeed: 1.48
     - _WaveStrength: 0.26
     m_Colors:
-    - _BaseCol: {r: 0.27880612, g: 0.59161633, b: 0.7987421, a: 1}
+    - _BaseCol: {r: 0.34031197, g: 0.56929725, b: 0.72099996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

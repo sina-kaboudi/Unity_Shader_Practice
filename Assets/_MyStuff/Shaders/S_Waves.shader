@@ -254,9 +254,9 @@ Shader "Custom/S_Waves"
 
 				o.positionWS.y += height * _WaveStrength;
 				float t1 = _Time.x * 0.5f;
-				float t2 = _Time.x * 0.2f;
-				o.uv = float2(o.uv.x + _Time.x, o.uv.y + _Time.x) * 3.0f;
-				o.uv2 = float2(o.uv.x, o.uv.y + _Time.x * 3.0f) * 2.0f;
+				float t2 = _Time.x * 1.5f;
+				o.uv = float2(o.uv.x + t1, o.uv.y + t1) * 1.5f;
+				o.uv2 = float2(o.uv.x, o.uv.y + t2) * 2.0f;
 
 				o.positionCS = TransformWorldToHClip(o.positionWS);
 				return o;
