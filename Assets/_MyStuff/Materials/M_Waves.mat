@@ -27,14 +27,30 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 994fa1830f4b399409f1dc439b324721, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _DstBlend: 2
+    - _EmissionOn: 0
+    - _MetallicStrength: 0
+    - _NormalStrength: 1
+    - _Smoothness: 0.5
     - _SrcBlend: 1
     - _TessAmount: 64
-    - _WaveSpeed: 0.44
-    - _WaveStrength: 0.37
+    - _WaveSpeed: 0
+    - _WaveStrength: 0
     m_Colors:
-    - _BaseCol: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseCol: {r: 0.62459934, g: 0.7082035, b: 0.7610062, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
