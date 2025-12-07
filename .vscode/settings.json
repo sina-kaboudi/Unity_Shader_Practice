@@ -1,0 +1,48 @@
+{
+    // ---------- File associations ----------
+    "files.associations": {
+        "*.shader": "shaderlab",
+        "*.cginc": "hlsl",
+        "*.hlsl": "hlsl",
+        "*.compute": "hlsl"
+    },
+    // ---------- Global editor behaviour ----------
+    "editor.autoIndent": "full",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.trimAutoWhitespace": true,
+    // ---------- HLSL formatting via shader-validator ----------
+    "[hlsl]": {
+        "editor.defaultFormatter": "jacobdufault.fidget", // shader-validator
+        "editor.formatOnType": true,
+        "editor.autoIndent": "full"
+    },
+    // ---------- Unity .shader (ShaderLab) files ----------
+    // ShadeView handles the syntax, shader-validator handles HLSL inside PROGRAM blocks.
+    "[shaderlab]": {
+        "editor.defaultFormatter": "jacobdufault.fidget",
+        "editor.autoIndent": "full",
+        "editor.formatOnType": true
+    },
+    // ---------- shader-validator settings ----------
+    "shader-validator.format.enable": true,
+    "shader-validator.diagnostics.enable": true,
+    "shader-validator.completion.enable": true,
+    "shader-validator.signatureHelp.enable": true,
+    // Prevent duplicate errors with ShadeView
+    "shader-validator.diagnostics.suppressShaderLab": true,
+    "shader-validator.diagnostics.suppressParsingErrors": false,
+    // ---------- ShadeView settings ----------
+    "shadeview.enableSemanticTokens": true,
+    "shadeview.enableSnippets": true,
+    "shadeview.formatting.enable": false, // IMPORTANT: avoid conflict with shader-validator
+    "shadeview.validateOnSave": false,
+    // ---------- Misc quality-of-life ----------
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    "editor.codeLens": false,
+    "editor.wordWrap": "off"
+}
