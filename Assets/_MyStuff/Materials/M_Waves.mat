@@ -47,7 +47,9 @@ Material:
     - _NormalStrength: 0.5
     - _Smoothness: 0.5
     - _SrcBlend: 1
-    - _TessAmount: 12
+    - _TessAmount: 32
+    - _TessMaxDistance: 50
+    - _TessMinDistance: 20
     - _WaveSpeed: 1.48
     - _WaveStrength: 0.26
     m_Colors:

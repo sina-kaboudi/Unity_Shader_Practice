@@ -22,6 +22,8 @@ Shader "Custom/S_Waves"
 		_DstBlend("Destination Blend Factor", Int) = 1
 
 		_TessAmount("Tesselation Amount", Range(1, 64)) = 2
+		_TessMinDistance("Min Tessellation Distance", Float) = 20
+		_TessMaxDistance("Max Tessellation Distance", Float) = 50
 	}
 
 	SubShader
@@ -128,6 +130,8 @@ Shader "Custom/S_Waves"
 				float _WaveStrength;
 				float _WaveSpeed;
 				float _TessAmount;
+				float _TessMinDistance;
+				float _TessMaxDistance;
 			CBUFFER_END
 
 			SurfaceData createSurfaceData(Varyings i)
@@ -276,8 +280,32 @@ Shader "Custom/S_Waves"
 			tessFactors patchConstantFunc(InputPatch<tessControlPoint, 3> patch)
 			{
 				tessFactors f;
-				f.edge[0] = f.edge[1] = f.edge[2] = _TessAmount;
-				f.inside = _TessAmount;
+
+				float3 triPos0 = TransformObjectToWorld(patch[0].positionOS.xyz);
+				float3 triPos1 = TransformObjectToWorld(patch[1].positionOS.xyz);
+				float3 triPos2 = TransformObjectToWorld(patch[2].positionOS.xyz);
+
+				float3 edgePos0 = 0.5f * (triPos1 + triPos2);
+				float3 edgePos1 = 0.5f * (triPos0 + triPos2);
+				float3 edgePos2 = 0.5f * (triPos0 + triPos1);
+
+				float3 camPos = _WorldSpaceCameraPos;
+
+				float dist0 = distance(edgePos0, camPos);
+				float dist1 = distance(edgePos1, camPos);
+				float dist2 = distance(edgePos2, camPos);
+
+				float fadeDist = _TessMaxDistance - _TessMinDistance;
+
+				float edgeFactor0 = saturate(1.0f - (dist0 - _TessMinDistance) / fadeDist);
+				float edgeFactor1 = saturate(1.0f - (dist1 - _TessMinDistance) / fadeDist);
+				float edgeFactor2 = saturate(1.0f - (dist2 - _TessMinDistance) / fadeDist);
+
+				f.edge[0] = max(pow(edgeFactor0, 2) * _TessAmount, 1);
+				f.edge[1] = max(pow(edgeFactor1, 2) * _TessAmount, 1);
+				f.edge[2] = max(pow(edgeFactor2, 2) * _TessAmount, 1);
+
+				f.inside = (f.edge[0] + f.edge[1] + f.edge[2]) / 3.0f;
 				return f;
 			}
 

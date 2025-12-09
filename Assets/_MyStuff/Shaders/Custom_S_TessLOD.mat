@@ -31,7 +31,7 @@ Material:
     m_Floats:
     - _DstBlend: 1
     - _SrcBlend: 1
-    - _TessAmount: 18.6
+    - _TessAmount: 38
     - _TessMaxDistance: 50
     - _TessMinDistance: 20
     m_Colors:
