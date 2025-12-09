@@ -88,6 +88,7 @@ Shader "Custom/S_Waves"
 				float4 tangentOS : TANGENT;
 				float2 staticLightmapUV : TEXCOORD2;
 				float2 dynamicLightmapUV : TEXCOORD3;
+				float3 positionWS : TEXCOORD4;
 			};
 
 			struct Varyings
@@ -217,6 +218,7 @@ Shader "Custom/S_Waves"
 			{
 				tessControlPoint o;
 				o.positionOS = i.positionOS;
+				o.positionWS = TransformObjectToWorld(i.positionOS.xyz);
 				o.uv = i.uv;
 				o.uv2 = i.uv2;
 				o.normalOS = i.normalOS;
@@ -281,9 +283,9 @@ Shader "Custom/S_Waves"
 			{
 				tessFactors f;
 
-				float3 triPos0 = TransformObjectToWorld(patch[0].positionOS.xyz);
-				float3 triPos1 = TransformObjectToWorld(patch[1].positionOS.xyz);
-				float3 triPos2 = TransformObjectToWorld(patch[2].positionOS.xyz);
+				float3 triPos0 = patch[0].positionWS;
+				float3 triPos1 = patch[1].positionWS;
+				float3 triPos2 = patch[2].positionWS;
 
 				float3 edgePos0 = 0.5f * (triPos1 + triPos2);
 				float3 edgePos1 = 0.5f * (triPos0 + triPos2);
